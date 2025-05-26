@@ -86,12 +86,14 @@ class alignas(VL_CACHE_LINE_BYTES) Vcore_top_tb___024root final : public Verilat
         CData/*3:0*/ core_top_tb__DOT__core_top_i__DOT__exu_inst__DOT__div_inst__DOT__miscf__DOT____Vcellinp__dff_rst_inst__din;
         CData/*4:0*/ core_top_tb__DOT__core_top_i__DOT__exu_inst__DOT__div_inst__DOT__out_addr_ff__DOT____Vcellinp__dff_rst_inst__din;
         CData/*0:0*/ core_top_tb__DOT__core_top_i__DOT__exu_inst__DOT__lsu_inst__DOT__dc1_unaligned_addr;
-        CData/*0:0*/ core_top_tb__DOT__core_top_i__DOT__exu_inst__DOT__lsu_inst__DOT__dc2_by;
-        CData/*0:0*/ core_top_tb__DOT__core_top_i__DOT__exu_inst__DOT__lsu_inst__DOT__dc2_half;
-        CData/*0:0*/ core_top_tb__DOT__core_top_i__DOT__exu_inst__DOT__lsu_inst__DOT__dc2_word;
-        CData/*0:0*/ core_top_tb__DOT__core_top_i__DOT__exu_inst__DOT__lsu_inst__DOT__dc2_store;
-        CData/*0:0*/ core_top_tb__DOT__core_top_i__DOT__exu_inst__DOT__lsu_inst__DOT__dc2_unsign;
+        CData/*0:0*/ core_top_tb__DOT__core_top_i__DOT__exu_inst__DOT__lsu_inst__DOT__lsu_stall_q;
         CData/*6:0*/ core_top_tb__DOT__core_top_i__DOT__exu_inst__DOT__lsu_inst__DOT____Vcellout__dc1_control_reg__dout;
+        CData/*6:0*/ core_top_tb__DOT__core_top_i__DOT__exu_inst__DOT__lsu_inst__DOT____Vcellout__dc2_control_reg__dout;
+        CData/*6:0*/ core_top_tb__DOT__core_top_i__DOT__exu_inst__DOT__lsu_inst__DOT____Vcellout__dc3_control_reg__dout;
+        CData/*0:0*/ core_top_tb__DOT__core_top_i__DOT__exu_inst__DOT__lsu_inst__DOT____VdfgRegularize_hc2d89e63_1_4;
+        CData/*0:0*/ core_top_tb__DOT__core_top_i__DOT__exu_inst__DOT__lsu_inst__DOT____VdfgRegularize_hc2d89e63_1_7;
+        CData/*0:0*/ core_top_tb__DOT__core_top_i__DOT__exu_inst__DOT__lsu_inst__DOT____VdfgRegularize_hc2d89e63_1_11;
+        CData/*0:0*/ core_top_tb__DOT__core_top_i__DOT__exu_inst__DOT__lsu_inst__DOT____VdfgRegularize_hc2d89e63_1_13;
         CData/*0:0*/ __VstlFirstIteration;
         CData/*0:0*/ __Vtrigprevexpr___TOP__core_top_tb__DOT__clk__0;
         CData/*0:0*/ __VactContinue;
@@ -145,10 +147,10 @@ class alignas(VL_CACHE_LINE_BYTES) Vcore_top_tb___024root final : public Verilat
         IData/*31:0*/ core_top_tb__DOT__core_top_i__DOT__idu1_inst__DOT__reg_file_i__DOT____Vcellout__g_reg_file__BRA__30__KET____DOT__g_reg_file_gen__DOT__reg_i__dout;
         IData/*31:0*/ core_top_tb__DOT__core_top_i__DOT__idu1_inst__DOT__reg_file_i__DOT____Vcellout__g_reg_file__BRA__31__KET____DOT__g_reg_file_gen__DOT__reg_i__dout;
         IData/*31:0*/ core_top_tb__DOT__core_top_i__DOT__idu1_inst__DOT__reg_file_i__DOT__g_reg_file__BRA__1__KET____DOT__g_reg_file_gen__DOT__reg_i__DOT____Vcellinp__dff_rst_inst__din;
-        IData/*31:0*/ core_top_tb__DOT__core_top_i__DOT__idu1_inst__DOT__reg_file_i__DOT__g_reg_file__BRA__2__KET____DOT__g_reg_file_gen__DOT__reg_i__DOT____Vcellinp__dff_rst_inst__din;
-        IData/*31:0*/ core_top_tb__DOT__core_top_i__DOT__idu1_inst__DOT__reg_file_i__DOT__g_reg_file__BRA__3__KET____DOT__g_reg_file_gen__DOT__reg_i__DOT____Vcellinp__dff_rst_inst__din;
     };
     struct {
+        IData/*31:0*/ core_top_tb__DOT__core_top_i__DOT__idu1_inst__DOT__reg_file_i__DOT__g_reg_file__BRA__2__KET____DOT__g_reg_file_gen__DOT__reg_i__DOT____Vcellinp__dff_rst_inst__din;
+        IData/*31:0*/ core_top_tb__DOT__core_top_i__DOT__idu1_inst__DOT__reg_file_i__DOT__g_reg_file__BRA__3__KET____DOT__g_reg_file_gen__DOT__reg_i__DOT____Vcellinp__dff_rst_inst__din;
         IData/*31:0*/ core_top_tb__DOT__core_top_i__DOT__idu1_inst__DOT__reg_file_i__DOT__g_reg_file__BRA__4__KET____DOT__g_reg_file_gen__DOT__reg_i__DOT____Vcellinp__dff_rst_inst__din;
         IData/*31:0*/ core_top_tb__DOT__core_top_i__DOT__idu1_inst__DOT__reg_file_i__DOT__g_reg_file__BRA__5__KET____DOT__g_reg_file_gen__DOT__reg_i__DOT____Vcellinp__dff_rst_inst__din;
         IData/*31:0*/ core_top_tb__DOT__core_top_i__DOT__idu1_inst__DOT__reg_file_i__DOT__g_reg_file__BRA__6__KET____DOT__g_reg_file_gen__DOT__reg_i__DOT____Vcellinp__dff_rst_inst__din;
@@ -196,7 +198,10 @@ class alignas(VL_CACHE_LINE_BYTES) Vcore_top_tb___024root final : public Verilat
         IData/*31:0*/ core_top_tb__DOT__core_top_i__DOT__exu_inst__DOT__lsu_inst__DOT__dc1_lsu_instr_out;
         IData/*31:0*/ core_top_tb__DOT__core_top_i__DOT__exu_inst__DOT__lsu_inst__DOT__dc2_lsu_instr_tag_out;
         IData/*31:0*/ core_top_tb__DOT__core_top_i__DOT__exu_inst__DOT__lsu_inst__DOT__dc2_lsu_instr_out;
+        IData/*31:0*/ core_top_tb__DOT__core_top_i__DOT__exu_inst__DOT__lsu_inst__DOT__dc3_lsu_instr_tag_out;
+        IData/*31:0*/ core_top_tb__DOT__core_top_i__DOT__exu_inst__DOT__lsu_inst__DOT__dc3_lsu_instr_out;
         VlWide<4>/*100:0*/ core_top_tb__DOT__core_top_i__DOT__exu_inst__DOT__lsu_inst__DOT____Vcellout__dc1_data_ff__dout;
+        VlWide<3>/*69:0*/ core_top_tb__DOT__core_top_i__DOT__exu_inst__DOT__lsu_inst__DOT____Vcellout__dc3_data_ff__dout;
         IData/*31:0*/ __VactIterCount;
         VlWide<7>/*218:0*/ core_top_tb__DOT__core_top_i__DOT__idu1_out;
         QData/*63:0*/ core_top_tb__DOT__core_top_i__DOT__iccm_inst__DOT__line_data;
@@ -208,13 +213,13 @@ class alignas(VL_CACHE_LINE_BYTES) Vcore_top_tb___024root final : public Verilat
         QData/*63:0*/ core_top_tb__DOT__core_top_i__DOT__exu_inst__DOT__alu_inst__DOT____Vcellinp__instr_tag_ff__din;
         QData/*32:0*/ core_top_tb__DOT__core_top_i__DOT__exu_inst__DOT__mul_inst__DOT__a_ff_e2;
         QData/*32:0*/ core_top_tb__DOT__core_top_i__DOT__exu_inst__DOT__mul_inst__DOT__b_ff_e2;
+    };
+    struct {
         QData/*63:0*/ core_top_tb__DOT__core_top_i__DOT__exu_inst__DOT__mul_inst__DOT____Vcellout__instr_tag_ff__dout;
         QData/*63:0*/ core_top_tb__DOT__core_top_i__DOT__exu_inst__DOT__mul_inst__DOT____Vcellout__instr_tag_e2_ff__dout;
         QData/*63:0*/ core_top_tb__DOT__core_top_i__DOT__exu_inst__DOT__mul_inst__DOT____Vcellout__instr_tag_e3_ff__dout;
         QData/*32:0*/ core_top_tb__DOT__core_top_i__DOT__exu_inst__DOT__div_inst__DOT__m_ff;
         QData/*32:0*/ core_top_tb__DOT__core_top_i__DOT__exu_inst__DOT__div_inst__DOT__q_ff;
-    };
-    struct {
         QData/*32:0*/ core_top_tb__DOT__core_top_i__DOT__exu_inst__DOT__div_inst__DOT__a_in;
         QData/*32:0*/ core_top_tb__DOT__core_top_i__DOT__exu_inst__DOT__div_inst__DOT__a_ff;
         QData/*63:0*/ core_top_tb__DOT__core_top_i__DOT__exu_inst__DOT__div_inst__DOT____Vcellout__instr_tag_ff__dout;
@@ -222,7 +227,8 @@ class alignas(VL_CACHE_LINE_BYTES) Vcore_top_tb___024root final : public Verilat
         QData/*32:0*/ core_top_tb__DOT__core_top_i__DOT__exu_inst__DOT__div_inst__DOT__qff__DOT____Vcellinp__dff_rst_inst__din;
         QData/*32:0*/ core_top_tb__DOT__core_top_i__DOT__exu_inst__DOT__div_inst__DOT__aff__DOT____Vcellinp__dff_rst_inst__din;
         QData/*63:0*/ core_top_tb__DOT__core_top_i__DOT__exu_inst__DOT__div_inst__DOT__instr_tag_ff__DOT____Vcellinp__dff_rst_inst__din;
-        QData/*38:0*/ core_top_tb__DOT__core_top_i__DOT__exu_inst__DOT__lsu_inst__DOT____Vcellout__dc2_addr_ff__dout;
+        QData/*37:0*/ core_top_tb__DOT__core_top_i__DOT__exu_inst__DOT__lsu_inst__DOT____Vcellout__dc2_data_ff__dout;
+        QData/*63:0*/ core_top_tb__DOT__core_top_i__DOT__exu_inst__DOT__lsu_inst__DOT__load_shifted;
         VlUnpacked<IData/*31:0*/, 1024> core_top_tb__DOT__core_top_i__DOT__iccm_inst__DOT__mem;
         VlUnpacked<IData/*31:0*/, 32> core_top_tb__DOT__core_top_i__DOT__idu1_inst__DOT__reg_file_i__DOT__reg_file;
         VlUnpacked<IData/*31:0*/, 1024> core_top_tb__DOT__core_top_i__DOT__dccm_inst__DOT__mem;

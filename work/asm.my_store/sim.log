@@ -11,11 +11,20 @@ g++    core_top_tb.o verilated.o verilated_vcd_c.o verilated_timing.o verilated_
 rm Vcore_top_tb__ALL.verilator_deplist.tmp
 make: Leaving directory '/home/maharishi/sysv/risc-core/work/asm.my_store/obj_dir'
 - V e r i l a t i o n   R e p o r t: Verilator 5.034 2025-02-24 rev UNKNOWN.REV
-- Verilator: Built from 0.950 MB sources in 23 modules, into 1.399 MB in 12 C++ files needing 0.001 MB
-- Verilator: Walltime 22.748 s (elab=0.053, cvt=0.253, bld=22.369); cpu 0.378 s on 1 threads; alloced 20.926 MB
+- Verilator: Built from 0.970 MB sources in 23 modules, into 1.484 MB in 12 C++ files needing 0.001 MB
+- Verilator: Walltime 27.157 s (elab=0.059, cvt=0.336, bld=26.675); cpu 0.481 s on 1 threads; alloced 21.586 MB
 make: Entering directory '/home/maharishi/sysv/risc-core/work/asm.my_store/obj_dir'
 make: 'Vcore_top_tb' is up to date.
 make: Leaving directory '/home/maharishi/sysv/risc-core/work/asm.my_store/obj_dir'
 ****** START of CORE TOP SIM ****** 
 - /home/maharishi/sysv/risc-core/tb/core_top_tb.sv:37: Verilog $finish
 ****** END of CORE TOP SIM ****** 
+Error: Result mismatch at PC 0x00100010 for instruction --> lb x6,0xC(x0)
+ISS: x6=0x00000000
+RTL: x6=0xffffffab
+Error: Result mismatch at PC 0x00100014 for instruction --> lbu x7,0xE(x0)
+ISS: x7=0x00000000
+RTL: x7=0x000000ab
+Error: Result mismatch at PC 0x00100018 for instruction --> lhu x8,0xD(x0)
+ISS: x8=0x00000000
+RTL: x8=0x0000abab
