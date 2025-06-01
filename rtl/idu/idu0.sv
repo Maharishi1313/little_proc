@@ -20,7 +20,8 @@ module idu0 (
     output idu0_out_t idu0_out,
 
     // control signals
-    input logic             pipe_stall
+    input logic             pipe_stall,
+    input logic pipe_flush
 
 );
   idu0_out_t   idu0_out_i;
@@ -92,14 +93,15 @@ module idu0 (
   assign idu0_out_i.legal = decode_out.legal;
 
   /* Output Flop */
-  dff_rst_en #($bits(
+  dff_rst_en_flush #(.WIDTH($bits(
       idu0_out_t
-  )) idu0_out_flop_inst (
+  ))) idu0_out_flop_inst (
       .clk  (clk),
       .rst_n(rst_n),
       .din  (idu0_out_i),
       .dout (idu0_out),
-      .en   (~pipe_stall)
+      .en   (~pipe_stall),
+      .flush(pipe_flush)
   );
 
 endmodule

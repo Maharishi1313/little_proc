@@ -32,7 +32,11 @@ module exu (
     input logic            dccm_rvalid_out,
     output logic [XLEN-1:0] dccm_waddr,
     output logic            dccm_wen,
-    output logic [XLEN-1:0] dccm_wdata
+    output logic [XLEN-1:0] dccm_wdata,
+
+    // pc interface
+    output logic [XLEN-1:0] pc_out,
+    output logic            pc_load
 
 );
 
@@ -71,6 +75,8 @@ module exu (
       .alu_wb_data    (alu_wb_data),
       .alu_wb_rd_addr (alu_wb_rd_addr),
       .alu_wb_rd_wr_en(alu_wb_rd_wr_en),
+      .pc_out(pc_out),
+      .pc_load(pc_load),
       .instr_tag_out  (alu_instr_tag_out),
       .instr_out      (alu_instr_out)
   );

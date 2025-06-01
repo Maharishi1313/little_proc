@@ -28,3 +28,8 @@ d_ff_full_sim:
 	@make -j -C obj_dir -f Vd_ff_full_tb.mk Vd_ff_full_tb 2>&1 > /dev/null
 	./obj_dir/Vd_ff_full_tb
 
+dff_rst_en_flush_sim:
+	@verilator -Wall --cc --trace --timing ./tb/dff_rst_en_flush_tb.sv ./rtl/lib/beh_lib.sv --top-module dff_rst_en_flush_tb --exe ./verilator/dff_rst_en_flush.cpp 2>&1 > /dev/null
+	@make -j -C obj_dir -f Vdff_rst_en_flush_tb.mk Vdff_rst_en_flush_tb 2>&1 > /dev/null
+	./obj_dir/Vdff_rst_en_flush_tb
+

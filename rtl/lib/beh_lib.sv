@@ -1,3 +1,6 @@
+/* verilator lint_off DECLFILENAME */
+
+
 module dff #(
     parameter int WIDTH = 1
 ) (
@@ -85,6 +88,63 @@ module dff_rst_en_vector #(
       .din((en) ? din : dout),
       .*
   );
+endmodule
+
+module dff_rst_flush #(
+  parameter int WIDTH = 1,
+  parameter logic [WIDTH-1:0] RESET_VAL = 0
+) (
+  input logic [WIDTH-1:0] din,
+  input logic             clk,
+  input logic rst_n,
+  input logic flush,
+
+  output logic [WIDTH-1:0] dout 
+);
+
+// logic [WIDTH-1:0] din_i;
+// logic [WIDTH-1:0] dout_i;
+
+// assign din_i[WIDTH-1:0] = (flush) ? RESET_VAL[WIDTH-1:0] : din[WIDTH-1:0];
+// assign dout[WIDTH-1:0] = (flush) ? RESET_VAL[WIDTH-1:0] : dout_i[WIDTH-1:0];
+  
+dff_rst_en #(WIDTH, RESET_VAL) ff_inst (
+  .clk(clk),
+  .rst_n(rst_n),
+  .din((flush) ? RESET_VAL : din),
+  .dout(dout),
+  .en(1'b1)
+);
+
+endmodule
+
+module dff_rst_en_flush #(
+    parameter int WIDTH = 1,
+    parameter logic [WIDTH-1:0] RESET_VAL = 0
+) (
+    input logic [WIDTH-1:0] din,
+    input logic             clk,
+    input logic             rst_n,
+    input logic             en,
+    input logic flush,
+
+    output logic [WIDTH-1:0] dout
+);
+  logic [WIDTH-1:0] din_i;
+  logic [WIDTH-1:0] dout_i;
+
+
+  assign din_i = (flush) ? RESET_VAL[WIDTH-1:0] : din[WIDTH-1:0];
+  assign dout = (flush) ? RESET_VAL[WIDTH-1:0] : dout_i[WIDTH-1:0];
+
+  dff_rst_en #(WIDTH, RESET_VAL) dff_rst_en_inst (
+      .clk(clk),
+      .rst_n(rst_n),
+      .en(en),
+      .din(din_i[WIDTH-1:0]),
+      .dout(dout_i[WIDTH-1:0])
+  );
+
 endmodule
 
 //program counter

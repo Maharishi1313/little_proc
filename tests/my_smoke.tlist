@@ -1,3 +1,1 @@
-asm.my_store
-asm.basic_load
-asm.load_test
+asm.basic_store

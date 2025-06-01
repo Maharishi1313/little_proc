@@ -39,11 +39,10 @@ module iccm #(
       line_data  <= 0;
       rtag_out <= 0;
     end else begin
-      if (rvalid_in) begin
-        rvalid_out <= 1;
-        line_data <= {mem[line_idx+1], mem[line_idx]};
-        rtag_out <= rtag_in;
-      end
+        rvalid_out <= rvalid_in;
+        line_data <= rvalid_in ? {mem[line_idx+1], mem[line_idx]} : 0;
+        rtag_out <= rvalid_in ? rtag_in : 0;
+      
     end
 
   end

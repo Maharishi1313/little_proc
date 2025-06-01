@@ -18,6 +18,7 @@ module idu1 (
 
     // control signals
     output logic pipe_stall,
+    input logic pipe_flush,
 
     //EXU -> IDU1 write back interface
     input logic [     4:0] exu_wb_rd_addr,
@@ -104,17 +105,18 @@ module idu1 (
   assign idu1_out_i.legal = idu0_out.legal;
 
 
-  dff_rst_en #(
+  dff_rst_en_flush #(
       .WIDTH($bits(idu1_out_t))
   ) idu1_out_reg (
       .clk  (clk),
       .rst_n(rst_n),
       .din  (idu1_out_i),
       .dout (idu1_out_before_fwd),
-      .en   (~pipe_stall)
+      .en   (~pipe_stall),
+      .flush(pipe_flush)
   );
 
-  dff_rst_en #(
+  dff_rst_en_flush #(
       .WIDTH($bits(last_issued_instr_t))
   ) last_issued_instr_reg (
     .clk(clk),
@@ -131,7 +133,8 @@ module idu1 (
          (idu1_out_before_fwd.load | idu1_out_before_fwd.store)}
     ),
     .dout(last_issued_instr),
-    .en(~pipe_stall)
+    .en(~pipe_stall),
+    .flush(pipe_flush)
   );    
 
   //operand forwarding

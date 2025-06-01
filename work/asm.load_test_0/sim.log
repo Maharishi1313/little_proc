@@ -1,0 +1,24 @@
+make: Entering directory '/home/maharishi/sysv/risc-core/work/asm.load_test_0/obj_dir'
+make: Nothing to be done for 'default'.
+make: Leaving directory '/home/maharishi/sysv/risc-core/work/asm.load_test_0/obj_dir'
+- V e r i l a t i o n   R e p o r t: Verilator 5.034 2025-02-24 rev UNKNOWN.REV
+- Verilator: Built from 0.000 MB sources in 0 modules, into 0.000 MB in 0 C++ files needing 0.000 MB
+- Verilator: Walltime 0.105 s (elab=0.000, cvt=0.000, bld=0.098); cpu 0.002 s on 1 threads; alloced 8.301 MB
+make: Entering directory '/home/maharishi/sysv/risc-core/work/asm.load_test_0/obj_dir'
+make: 'Vcore_top_tb' is up to date.
+make: Leaving directory '/home/maharishi/sysv/risc-core/work/asm.load_test_0/obj_dir'
+****** START of CORE TOP SIM ****** 
+- /home/maharishi/sysv/risc-core/tb/core_top_tb.sv:37: Verilog $finish
+****** END of CORE TOP SIM ****** 
+Error: Result mismatch at PC 0x00100000 for instruction --> lw x2,0x1(x0)
+ISS: x2=0x00DEADBE
+RTL: x2=0xffffadbe
+Error: Result mismatch at PC 0x00100004 for instruction --> lh x3,0x2(x0)
+ISS: x3=0xFFFFDEAD
+RTL: x3=0x00000000
+Error: Result mismatch at PC 0x00100010 for instruction --> lb x6,0xC(x0)
+ISS: x6=0x00000000
+RTL: x6=0xffffffab
+Error: Result mismatch at PC 0x00100014 for instruction --> lbu x7,0xE(x0)
+ISS: x7=0x00000000
+RTL: x7=0x0000abab

@@ -18,7 +18,10 @@ module alu (
 
     output logic [XLEN-1:0] alu_wb_data,
     output logic [     4:0] alu_wb_rd_addr,
-    output logic            alu_wb_rd_wr_en
+    output logic            alu_wb_rd_wr_en,
+
+    output logic [XLEN-1:0] pc_out,
+    output logic            pc_load
 );
 
   logic [XLEN-1:0] alu_wb_data_i;
@@ -33,30 +36,43 @@ module alu (
   logic [XLEN-1:0] lout;
   logic [XLEN-1:0] sout;
 
+  logic pc_cout;
+  logic [XLEN-1:0] pc;
+  logic pc_vld;
+  logic brn_taken;
+
   logic sel_logic, sel_shift, sel_adder;
   logic            slt_one;
   logic [XLEN-1:0] pcout;
   logic [XLEN-1:0] ashift;
   logic eq, ne, lt, ge;
 
-  assign a = alu_ctrl.rs1_data;
-  assign b = (alu_ctrl.imm_valid) ? alu_ctrl.imm : (alu_ctrl.shimm5) ? {{(XLEN-5){1'b0}}, 
-              alu_ctrl.shamt[$clog2(
+  assign a = (alu_ctrl.jal) ? alu_ctrl.instr_tag : alu_ctrl.rs1_data;
+  
+  assign b = ({XLEN{alu_ctrl.imm_valid}} & alu_ctrl.imm) | 
+             ({XLEN{alu_ctrl.shimm5}} & {{(XLEN-5){1'b0}}, alu_ctrl.shamt[$clog2(
       XLEN
-  )-1:0]} : alu_ctrl.rs2_data;
+  )-1:0]}) | ({XLEN{alu_ctrl.rs2}} & alu_ctrl.rs2_data) | ({XLEN{alu_ctrl.jal}} & 32'h00000004);
 
   assign bm = (alu_ctrl.sub) ? ~b[XLEN-1:0] : b[XLEN-1:0];  // modified b = if sub-> ~b(1's comp) otherwise-> b
 
   // add/sub --> {carry, sum} = a + bm + sub,   sub_sig ==1 if subtraction, --> sub_res = a + b(modified) + sub_sig 
   assign {cout, aout[XLEN-1:0]} = {1'b0, a[XLEN-1:0]} + {1'b0, bm[XLEN-1:0]} + {32'b0, alu_ctrl.sub};
 
-  assign ov = (~a[31] & ~b[31] & aout[31]) | (a[31] & b[31] & ~aout[31]);   // signed overflow detection (+ + -> -) | (- - -> +) both of them result in overflow
+  assign ov = (~a[31] & ~bm[31] & aout[31]) | (a[31] & bm[31] & ~aout[31]);   // signed overflow detection (+ + -> -) | (- - -> +) both of them result in overflow
 
   assign neg = aout[XLEN-1];
 
   assign eq = a == b;
 
   assign ne = ~eq;
+
+  assign {pc_cout, pc} = ({XLEN+1{(alu_ctrl.jal & alu_ctrl.pc) | alu_ctrl.condbr}} & (alu_ctrl.imm + alu_ctrl.instr_tag[XLEN-1:0])) |
+                         ({XLEN+1{(alu_ctrl.jal & ~alu_ctrl.pc) }} & (alu_ctrl.imm + alu_ctrl.rs1_data[XLEN-1:0]));
+
+  assign brn_taken = (alu_ctrl.beq & eq) | (alu_ctrl.bne & ne) | (alu_ctrl.bge & ge) | (alu_ctrl.blt & lt);
+
+  assign pc_vld = alu_ctrl.jal | (alu_ctrl.condbr & brn_taken);
 
   // mux implementation for logic operations
   assign logic_sel[3] = alu_ctrl.land | alu_ctrl.lor;  // true for AND , OR
@@ -113,5 +129,12 @@ module alu (
       .rst_n(rst_n),
       .din  ({alu_ctrl.instr_tag, alu_ctrl.instr}),
       .dout ({instr_tag_out, instr_out})
+  );
+
+  dff_rst #(.WIDTH(XLEN + 1)) pc_ff (
+    .clk(clk),
+    .rst_n(rst_n),
+    .din({pc, pc_vld}),
+    .dout({pc_out, pc_load})
   );
 endmodule

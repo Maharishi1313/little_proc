@@ -19,3 +19,4 @@ _start:
     li x5, 0xdeadbeef
     li x5, 0xcafebabe
     li x5, 0xdeadbeef
+    ret

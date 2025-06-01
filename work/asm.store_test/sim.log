@@ -1,0 +1,12 @@
+make: Entering directory '/home/maharishi/sysv/risc-core/work/asm.store_test/obj_dir'
+make: Nothing to be done for 'default'.
+make: Leaving directory '/home/maharishi/sysv/risc-core/work/asm.store_test/obj_dir'
+- V e r i l a t i o n   R e p o r t: Verilator 5.034 2025-02-24 rev UNKNOWN.REV
+- Verilator: Built from 0.000 MB sources in 0 modules, into 0.000 MB in 0 C++ files needing 0.000 MB
+- Verilator: Walltime 0.015 s (elab=0.000, cvt=0.000, bld=0.014); cpu 0.002 s on 1 threads; alloced 8.301 MB
+make: Entering directory '/home/maharishi/sysv/risc-core/work/asm.store_test/obj_dir'
+make: 'Vcore_top_tb' is up to date.
+make: Leaving directory '/home/maharishi/sysv/risc-core/work/asm.store_test/obj_dir'
+****** START of CORE TOP SIM ****** 
+- /home/maharishi/sysv/risc-core/tb/core_top_tb.sv:37: Verilog $finish
+****** END of CORE TOP SIM ****** 
