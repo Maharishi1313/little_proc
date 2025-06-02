@@ -47,7 +47,7 @@ module alu (
   logic [XLEN-1:0] ashift;
   logic eq, ne, lt, ge;
 
-  assign a = (alu_ctrl.jal) ? alu_ctrl.instr_tag : alu_ctrl.rs1_data;
+  assign a = (alu_ctrl.jal | (alu_ctrl.pc & alu_ctrl.add)) ? alu_ctrl.instr_tag : alu_ctrl.rs1_data;
   
   assign b = ({XLEN{alu_ctrl.imm_valid}} & alu_ctrl.imm) | 
              ({XLEN{alu_ctrl.shimm5}} & {{(XLEN-5){1'b0}}, alu_ctrl.shamt[$clog2(
@@ -72,7 +72,7 @@ module alu (
 
   assign brn_taken = (alu_ctrl.beq & eq) | (alu_ctrl.bne & ne) | (alu_ctrl.bge & ge) | (alu_ctrl.blt & lt);
 
-  assign pc_vld = alu_ctrl.jal | (alu_ctrl.condbr & brn_taken);
+  assign pc_vld = (alu_ctrl.jal | (alu_ctrl.condbr & brn_taken)) & alu_ctrl.legal & ~alu_ctrl.nop & alu_ctrl.alu;
 
   // mux implementation for logic operations
   assign logic_sel[3] = alu_ctrl.land | alu_ctrl.lor;  // true for AND , OR
@@ -96,7 +96,7 @@ module alu (
 
   assign sel_shift = |{alu_ctrl.sll, alu_ctrl.srl, alu_ctrl.sra};
 
-  assign sel_adder = (alu_ctrl.add | alu_ctrl.sub) & ~alu_ctrl.slt;  //slt-> set less than
+  assign sel_adder = (alu_ctrl.add | alu_ctrl.sub | alu_ctrl.jal) & ~alu_ctrl.slt;  //slt-> set less than
 
   assign lt = (~alu_ctrl.unsign & (neg ^ ov)) | (alu_ctrl.unsign & ~cout);
 
@@ -106,7 +106,7 @@ module alu (
 
   assign alu_wb_data_i[XLEN-1:0] = ({XLEN{sel_logic}} & lout[XLEN-1:0]) |
                                  ({XLEN{sel_shift}} & sout[XLEN-1:0]) | 
-                                 ({XLEN{sel_adder}} & aout[XLEN-1:0]) |
+                                 ({XLEN{sel_adder }} & aout[XLEN-1:0]) |
                                  ({XLEN{slt_one}} & {{(XLEN-1){1'b0}}, 1'b1}) ;      // replication operator - {N{val}}, repeats val N times
 
 

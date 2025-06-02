@@ -1,5 +1,3 @@
-
-
 `ifndef GLOBAL_SVH
 `include "global.svh"
 `endif
