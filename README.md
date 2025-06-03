@@ -1,6 +1,7 @@
 # RV32IM Core: A Pipelined 32-bit RISC-V Processor Core
 
 This repository contains the SystemVerilog implementation of a 32-bit RISC-V processor core. It features a pipelined architecture designed for efficient instruction execution, supporting the RV32I base integer instruction set along with the standard 'M' extension for multiplication and division. The core is capable of handling unaligned memory accesses and incorporates data hazard prevention through operand forwarding.
+![rv](https://github.com/user-attachments/assets/20218630-143a-44d9-ac47-76c57c00e957)
 
 ## Key Features
 
@@ -106,6 +107,7 @@ This potentially laborious testing process is streamlined by a Python script:
 ### Debugging
 
 *   **GTKWave:** Waveform viewer used to analyze signal traces generated during Verilator simulations, aiding in visual debugging of the hardware design.
+![Screenshot from 2025-05-23 23-21-53](https://github.com/user-attachments/assets/a2c33372-5eee-49d9-92b8-d9f97932970e)
 
 ## Getting Started
 1.  **Prerequisites:**
