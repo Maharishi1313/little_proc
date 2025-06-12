@@ -28,6 +28,12 @@ module core_top #(
   logic                                 instr_mem_rdata_valid;
   logic      [ INSTR_MEM_TAG_WIDTH-1:0] instr_mem_tag_in;
 
+
+  // IFU <-> Branch pred interface
+  logic [BP_ADDR_SIZE-1:0] instr_tag_ifu_out;
+  logic [XLEN-1:0] bp_pc_in;
+  logic bp_dir;
+
   /* IFU -> IDU0 Interface */
   logic      [           INSTR_LEN-1:0] instr;
   logic                                 instr_valid;
@@ -47,6 +53,12 @@ module core_top #(
   logic                                 exu_div_busy;
   logic                                 exu_lsu_busy;
   logic                                 exu_lsu_stall;
+
+  //EXU -> BP Interface
+  logic [BP_ADDR_SIZE-1:0] instr_tag_exu_out;
+  logic exu_br_dir;
+  logic [XLEN-1:0] exu_pc_out;
+  logic exu_bp_strobe;
 
   /* Data Memory */
   logic      [                XLEN-1:0] dccm_raddr;
@@ -99,8 +111,27 @@ module core_top #(
       .instr_tag            (instr_tag),
       .pipe_stall           (pipe_stall),
       .pc_exu(pc_out),
-      .pc_load(pc_load)
+      .pc_load(pc_load),
+      .instr_tag_ifu_out(instr_tag_ifu_out),
+      .bp_pc_in(bp_pc_in),
+      .bp_dir(bp_dir)
+
   );
+
+  //branch predictor
+  twob_predictor #(
+    .addr_size(BP_ADDR_SIZE)
+  ) bp_inst (
+    .clk(clk),
+    .rst_n(rst_n),
+    .instr_tag_ifu(instr_tag_ifu_out),
+    .bp_pc_out(bp_pc_in),
+    .bp_dir(bp_dir),
+    .instr_tag_exu(instr_tag_exu_out),
+    .exu_br_dir(exu_br_dir),
+    .exu_pc_in(exu_pc_out),
+    .exu_bp_strobe(exu_bp_strobe)
+  )
 
   /* Instruction Decode Unit - Stage 0 */
   idu0 idu0_inst (
@@ -154,7 +185,12 @@ module core_top #(
       .dccm_wen       (dccm_wen),
       .dccm_wdata     (dccm_wdata),
       .pc_out(pc_out),
-      .pc_load(pc_load)
+      .pc_load(pc_load),
+      .instr_tag_exu_out(instr_tag_exu_out),
+      .exu_br_dir(exu_br_dir),
+      .exu_pc_out(exu_pc_out),
+      .exu_bp_strobe(exu_bp_strobe)
+    
   );
 
   dccm #(

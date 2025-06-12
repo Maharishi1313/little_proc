@@ -21,7 +21,10 @@ module alu (
     output logic            alu_wb_rd_wr_en,
 
     output logic [XLEN-1:0] pc_out,
-    output logic            pc_load
+    output logic            pc_load,
+
+    output logic pc_vld,
+    output logic branch
 );
 
   logic [XLEN-1:0] alu_wb_data_i;
@@ -38,7 +41,7 @@ module alu (
 
   logic pc_cout;
   logic [XLEN-1:0] pc;
-  logic pc_vld;
+//   logic pc_vld;
   logic brn_taken;
 
   logic sel_logic, sel_shift, sel_adder;
@@ -73,7 +76,7 @@ module alu (
   assign brn_taken = (alu_ctrl.beq & eq) | (alu_ctrl.bne & ne) | (alu_ctrl.bge & ge) | (alu_ctrl.blt & lt);
 
   assign pc_vld = (alu_ctrl.jal | (alu_ctrl.condbr & brn_taken)) & alu_ctrl.legal & ~alu_ctrl.nop & alu_ctrl.alu;
-
+  assign branch = alu_ctrl.jal | alu_ctrl.condbr;
   // mux implementation for logic operations
   assign logic_sel[3] = alu_ctrl.land | alu_ctrl.lor;  // true for AND , OR
   assign logic_sel[2] = alu_ctrl.lor | alu_ctrl.lxor;  // true for OR, XOR

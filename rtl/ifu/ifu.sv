@@ -16,6 +16,11 @@ module ifu (
     input  logic                            instr_mem_rdata_valid,
     input  logic [ INSTR_MEM_TAG_WIDTH-1:0] instr_mem_tag_in,
 
+    //Branch predictor interface
+    output logic [BP_ADDR_SIZE-1:0] instr_tag_ifu_out,
+    input logic [XLEN-1:0] bp_pc_in,
+    input logic bp_dir,
+
     //control signals
     input logic                  pipe_stall,
     output logic [INSTR_LEN-1:0] instr,
@@ -30,10 +35,14 @@ module ifu (
 
   logic [XLEN-1:0] pc_out;
   logic pc_out_valid;
+  logic bp_pc;
 
   assign instr_mem_addr = pc_out[INSTR_MEM_ADDR_WIDTH-1:0];
-
   assign instr_mem_tag_out = pc_out;
+
+  assign instr_tag_ifu_out = pc_out[BP_ADDR_SIZE-1:0];
+  assign bp_pc = bp_pc_in;
+
 
   //pc inst
   pc pc_inst (

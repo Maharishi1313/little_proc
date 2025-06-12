@@ -6,6 +6,8 @@
 localparam XLEN = 32;
 localparam XLEN_BYTES = XLEN / 8;
 
+localparam BP_ADDR_SIZE = 8;
+
 localparam RESET_VECTOR = 32'h00000000;
 
 localparam INSTR_LEN = 32;

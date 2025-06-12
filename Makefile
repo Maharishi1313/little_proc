@@ -33,3 +33,5 @@ dff_rst_en_flush_sim:
 	@make -j -C obj_dir -f Vdff_rst_en_flush_tb.mk Vdff_rst_en_flush_tb 2>&1 > /dev/null
 	./obj_dir/Vdff_rst_en_flush_tb
 
+
+
