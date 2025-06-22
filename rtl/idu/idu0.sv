@@ -15,6 +15,7 @@ module idu0 (
     input logic [INSTR_LEN-1:0] instr,
     input logic                 instr_valid,
     input logic [     XLEN-1:0] instr_tag,
+    input logic branch_taken,
 
     //idu1 interface
     output idu0_out_t idu0_out,
@@ -32,6 +33,10 @@ module idu0 (
       .i(instr),
       .decode_out(decode_out)
   );
+  
+  // bp add-on
+  assign idu0_out_i.branch_taken = branch_taken;
+
 
   assign idu0_out_i.instr = instr;
   assign idu0_out_i.instr_tag = instr_tag;

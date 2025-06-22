@@ -23,8 +23,9 @@ module alu (
     output logic [XLEN-1:0] pc_out,
     output logic            pc_load,
 
-    output logic pc_vld,
-    output logic branch
+    // output logic pc_vld,
+    output logic branch_alu,
+    output logic branch_dir
 );
 
   logic [XLEN-1:0] alu_wb_data_i;
@@ -41,8 +42,10 @@ module alu (
 
   logic pc_cout;
   logic [XLEN-1:0] pc;
-//   logic pc_vld;
+  logic pc_vld;
   logic brn_taken;
+  logic branch;
+  logic flush;
 
   logic sel_logic, sel_shift, sel_adder;
   logic            slt_one;
@@ -70,6 +73,8 @@ module alu (
 
   assign ne = ~eq;
 
+  // branch operations
+
   assign {pc_cout, pc} = ({XLEN+1{(alu_ctrl.jal & alu_ctrl.pc) | alu_ctrl.condbr}} & (alu_ctrl.imm + alu_ctrl.instr_tag[XLEN-1:0])) |
                          ({XLEN+1{(alu_ctrl.jal & ~alu_ctrl.pc) }} & (alu_ctrl.imm + alu_ctrl.rs1_data[XLEN-1:0]));
 
@@ -77,6 +82,9 @@ module alu (
 
   assign pc_vld = (alu_ctrl.jal | (alu_ctrl.condbr & brn_taken)) & alu_ctrl.legal & ~alu_ctrl.nop & alu_ctrl.alu;
   assign branch = alu_ctrl.jal | alu_ctrl.condbr;
+
+  assign flush = alu_ctrl.branch_taken ^ pc_vld;
+
   // mux implementation for logic operations
   assign logic_sel[3] = alu_ctrl.land | alu_ctrl.lor;  // true for AND , OR
   assign logic_sel[2] = alu_ctrl.lor | alu_ctrl.lxor;  // true for OR, XOR
@@ -134,10 +142,10 @@ module alu (
       .dout ({instr_tag_out, instr_out})
   );
 
-  dff_rst #(.WIDTH(XLEN + 1)) pc_ff (
+  dff_rst #(.WIDTH(XLEN + 3)) pc_ff (
     .clk(clk),
     .rst_n(rst_n),
-    .din({pc, pc_vld}),
-    .dout({pc_out, pc_load})
+    .din({pc, flush,branch, pc_vld}),
+    .dout({pc_out, pc_load, branch_alu, branch_dir})
   );
 endmodule

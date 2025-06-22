@@ -14,6 +14,8 @@ $PROJ/rtl/exu/alu.sv
 $PROJ/rtl/exu/mul.sv
 $PROJ/rtl/exu/div.sv
 $PROJ/rtl/exu/lsu.sv
+$PROJ/rtl/bp/twob_ctr.sv
+$PROJ/rtl/bp/twob_predictor.sv
 
 $PROJ/rtl/idu/reg_file.sv
 $PROJ/rtl/lib/beh_lib.sv

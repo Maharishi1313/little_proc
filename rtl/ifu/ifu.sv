@@ -20,6 +20,10 @@ module ifu (
     output logic [BP_ADDR_SIZE-1:0] instr_tag_ifu_out,
     input logic [XLEN-1:0] bp_pc_in,
     input logic bp_dir,
+    input logic bp_pc_out_valid,
+    
+    //idu0 interface
+    output logic branch_taken,
 
     //control signals
     input logic                  pipe_stall,
@@ -31,17 +35,23 @@ module ifu (
 
     output logic                 instr_valid,
     output logic [     XLEN-1:0] instr_tag
+    
 );
 
   logic [XLEN-1:0] pc_out;
   logic pc_out_valid;
-  logic bp_pc;
+  // logic [XLEN-1:0] bp_pc;
+  logic load;
+  logic [XLEN-1:0] pc_in;
 
-  assign instr_mem_addr = pc_out[INSTR_MEM_ADDR_WIDTH-1:0];
-  assign instr_mem_tag_out = pc_out;
+  assign instr_mem_addr = (bp_dir & bp_pc_out_valid & ~pc_load) ? bp_pc_in[INSTR_MEM_ADDR_WIDTH-1:0] : pc_out[INSTR_MEM_ADDR_WIDTH-1:0];
+  assign instr_mem_tag_out = (bp_dir & bp_pc_out_valid & ~pc_load) ? bp_pc_in : pc_out;
 
   assign instr_tag_ifu_out = pc_out[BP_ADDR_SIZE-1:0];
-  assign bp_pc = bp_pc_in;
+//   assign bp_pc = bp_pc_in;
+  
+  assign load = pc_load | (bp_dir & bp_pc_out_valid);
+  assign pc_in = ({XLEN{pc_load}} & pc_exu) | ({XLEN{bp_dir}} & (bp_pc_in + 32'd4));
 
 
   //pc inst
@@ -50,20 +60,21 @@ module ifu (
       .rst_n(rst_n),
       .reset_vector(reset_vector),
       .stall(pipe_stall),
-      .load(pc_load),
-      .inc(~pc_load),
-      .pc_in(pc_exu),
+      .load(load),
+      .inc(~load),
+      .pc_in(pc_in),
       .pc_out(pc_out),
       .pc_out_valid(pc_out_valid)
   );
 
-  assign instr_mem_addr_valid = pc_out_valid & ~pc_load;
+  assign instr_mem_addr_valid = (pc_out_valid & ~pc_load) | (pc_out_valid & (bp_dir & bp_pc_out_valid))  ;
+  
   //generate the outputs
-  dff_rst_en_flush #(.WIDTH(INSTR_LEN + 1 + XLEN)) instr_dff_inst (
+  dff_rst_en_flush #(.WIDTH(INSTR_LEN + 1 + XLEN + 1)) instr_dff_inst (
       .clk  (clk),
       .rst_n(rst_n),
-      .din  ({instr_mem_rdata_valid, instr_mem_rdata, instr_mem_tag_in}),
-      .dout ({instr_valid, instr, instr_tag}),
+      .din  ({instr_mem_rdata_valid, instr_mem_rdata, instr_mem_tag_in, (bp_dir & bp_pc_out_valid)}),
+      .dout ({instr_valid, instr, instr_tag, branch_taken}),
       .en(~pipe_stall),
       .flush(pc_load)
   );

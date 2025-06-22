@@ -49,6 +49,10 @@ module idu1 (
       .rd_data  (exu_wb_data),
       .rd_wr_en (exu_wb_rd_wr_en)
   );
+  
+  // branching
+  assign idu1_out_i.branch_taken = idu0_out.branch_taken;
+
 
   assign idu1_out_i.instr = idu0_out.instr;
   assign idu1_out_i.instr_tag = idu0_out.instr_tag;

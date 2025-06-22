@@ -5,7 +5,8 @@ module twob_ctr (
     input logic rst_n,
 
     //control signal
-    input logic strobe;
+    input logic strobe,
+    
     
     //input
     input logic ctr,
@@ -22,8 +23,8 @@ dff_rst_en #(.WIDTH(2)) flop (
     .clk(clk),
     .rst_n(rst_n),
     .en(strobe),
-    .din(din_i),
-    .dout(next_stt)
+    .din({din_i}),
+    .dout({next_stt})
 );
     
 endmodule

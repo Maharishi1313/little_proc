@@ -63,8 +63,8 @@ module exu (
   logic            lsu_wb_rd_wr_en;
 
   //bp
-  logic alu_br_dir;
-  logic branch;
+  logic branch_dir;
+  logic branch_alu;
 
 
   /* ONLY FOR DEBUG */
@@ -87,8 +87,8 @@ module exu (
       .alu_wb_rd_wr_en(alu_wb_rd_wr_en),
       .pc_out(pc_out),
       .pc_load(pc_load),
-      .pc_vld(alu_br_dir),
-      .branch(branch),
+      .branch_dir(branch_dir),
+      .branch_alu(branch_alu),
       .instr_tag_out  (alu_instr_tag_out),
       .instr_out      (alu_instr_out)
   );
@@ -156,10 +156,10 @@ module exu (
   assign exu_wb_rd_wr_en = alu_wb_rd_wr_en | mul_wb_rd_wr_en | div_wb_rd_wr_en | lsu_wb_rd_wr_en;
 
 
-  assign instr_tag_exu_out = instr_tag_out[BP_ADDR_SIZE-1:0];
-  assign exu_br_dir = alu_br_dir;
+  assign instr_tag_exu_out = alu_instr_tag_out[BP_ADDR_SIZE-1:0];
+  assign exu_br_dir = branch_dir;
   assign exu_pc_out = pc_out;
-  assign exu_bp_strobe = branch;
+  assign exu_bp_strobe = branch_alu;
   //for debug
   assign instr_tag_out = ({(XLEN) {alu_wb_rd_wr_en}} & alu_instr_tag_out) |
                          ({(XLEN) {mul_wb_rd_wr_en}} & mul_instr_tag_out) |

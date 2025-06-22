@@ -33,11 +33,12 @@ module core_top #(
   logic [BP_ADDR_SIZE-1:0] instr_tag_ifu_out;
   logic [XLEN-1:0] bp_pc_in;
   logic bp_dir;
+  logic bp_pc_out_valid;
 
   /* IFU -> IDU0 Interface */
   logic      [           INSTR_LEN-1:0] instr;
   logic                                 instr_valid;
-
+  logic branch_taken;
   /* IDU0 -> IDU1 Interface */
   idu0_out_t                            idu0_out;
 
@@ -114,7 +115,9 @@ module core_top #(
       .pc_load(pc_load),
       .instr_tag_ifu_out(instr_tag_ifu_out),
       .bp_pc_in(bp_pc_in),
-      .bp_dir(bp_dir)
+      .bp_dir(bp_dir),
+      .bp_pc_out_valid(bp_pc_out_valid),
+      .branch_taken(branch_taken)
 
   );
 
@@ -130,8 +133,9 @@ module core_top #(
     .instr_tag_exu(instr_tag_exu_out),
     .exu_br_dir(exu_br_dir),
     .exu_pc_in(exu_pc_out),
-    .exu_bp_strobe(exu_bp_strobe)
-  )
+    .exu_bp_strobe(exu_bp_strobe),
+    .bp_pc_out_valid(bp_pc_out_valid)
+  );
 
   /* Instruction Decode Unit - Stage 0 */
   idu0 idu0_inst (
@@ -140,6 +144,7 @@ module core_top #(
       .instr      (instr),
       .instr_valid(instr_valid),
       .instr_tag  (instr_tag),
+      .branch_taken(branch_taken),
       .pipe_stall (pipe_stall),
       .idu0_out   (idu0_out),
       .pipe_flush(pc_load)

@@ -51,6 +51,7 @@ typedef struct packed {
   logic rem;
   logic nop;
   logic legal;
+  logic branch_taken;
 } idu0_out_t;
 
 typedef struct packed {
@@ -147,6 +148,7 @@ typedef struct packed {
   logic rem;
   logic nop;
   logic legal;
+  logic branch_taken;
 } idu1_out_t;
 
 typedef struct packed {
