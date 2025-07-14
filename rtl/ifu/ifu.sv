@@ -32,6 +32,9 @@ module ifu (
     input logic [XLEN-1:0] pc_exu,
     input logic            pc_load,
 
+    //test
+    input logic exu_br_dir,
+
 
     output logic                 instr_valid,
     output logic [     XLEN-1:0] instr_tag
@@ -49,8 +52,8 @@ module ifu (
 
   assign instr_tag_ifu_out = pc_out[BP_ADDR_SIZE-1:0];
 //   assign bp_pc = bp_pc_in;
-  
-  assign load = pc_load | (bp_dir & bp_pc_out_valid);
+  assign load = pc_load ? exu_br_dir : (bp_dir & bp_pc_out_valid);
+  // assign load = ((pc_load & exu_br_dir) | (bp_dir & bp_pc_out_valid)) ;
   assign pc_in = ({XLEN{pc_load}} & pc_exu) | ({XLEN{bp_dir}} & (bp_pc_in + 32'd4));
 
 

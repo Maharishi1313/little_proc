@@ -23,7 +23,6 @@ module alu (
     output logic [XLEN-1:0] pc_out,
     output logic            pc_load,
 
-    // output logic pc_vld,
     output logic branch_alu,
     output logic branch_dir
 );

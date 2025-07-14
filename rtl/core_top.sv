@@ -61,6 +61,9 @@ module core_top #(
   logic [XLEN-1:0] exu_pc_out;
   logic exu_bp_strobe;
 
+  //test
+  logic branch_dir;
+
   /* Data Memory */
   logic      [                XLEN-1:0] dccm_raddr;
   logic                                 dccm_rvalid_in;
@@ -117,7 +120,8 @@ module core_top #(
       .bp_pc_in(bp_pc_in),
       .bp_dir(bp_dir),
       .bp_pc_out_valid(bp_pc_out_valid),
-      .branch_taken(branch_taken)
+      .branch_taken(branch_taken),
+      .exu_br_dir(branch_dir)
 
   );
 
@@ -194,7 +198,8 @@ module core_top #(
       .instr_tag_exu_out(instr_tag_exu_out),
       .exu_br_dir(exu_br_dir),
       .exu_pc_out(exu_pc_out),
-      .exu_bp_strobe(exu_bp_strobe)
+      .exu_bp_strobe(exu_bp_strobe),
+      .branch_dir(branch_dir)
     
   );
 

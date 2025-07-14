@@ -31,6 +31,9 @@ module exu (
     output logic [XLEN-1:0] exu_pc_out,
     output logic exu_bp_strobe,
 
+    //test 
+    output logic branch_dir,
+
     //dccm interface
     output logic [XLEN-1:0] dccm_raddr,           
     output logic            dccm_rvalid_in,
@@ -63,7 +66,7 @@ module exu (
   logic            lsu_wb_rd_wr_en;
 
   //bp
-  logic branch_dir;
+  // logic branch_dir;
   logic branch_alu;
 
 

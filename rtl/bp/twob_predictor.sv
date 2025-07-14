@@ -46,11 +46,11 @@ logic [1:0] cache_stt;
 logic cache_loaded;
 logic ctr_updated;
 
-initial begin
-    for (int i = 0; i<addr_size ;i++) begin
-        cache[i] = {XLEN+3{1'b0}};
-    end
-end
+// initial begin
+//     for (int i = 0; i<addr_size ;i++) begin
+//         cache[i] = {XLEN+3{1'b0}};
+//     end
+// end
 
 always_ff @(posedge clk) begin
     if(!rst_n) begin
