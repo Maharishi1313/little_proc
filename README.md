@@ -133,8 +133,6 @@ This potentially laborious testing process is streamlined by a Python script:
 
 The current core provides a solid foundation. Planned enhancements include:
 
-*   **Branch Prediction:**
-    *   Implement a 2-bit saturating counter based branch predictor to improve performance by reducing pipeline flushes on taken branches.
 *   **Floating Point Unit (FPU):**
     *   Integrate an FPU to support the RISC-V 'F' (single-precision floating-point) and potentially 'D' (double-precision floating-point) standard extensions. This will involve adding new instructions, a floating-point register file, and dedicated execution units.
 *   **Interrupt and Exception Handling:**
@@ -149,3 +147,4 @@ The current core provides a solid foundation. Planned enhancements include:
 
 ## References
 * [Siliscale](https://github.com/siliscale/Tiny-Vedas)
+
