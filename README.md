@@ -1,7 +1,8 @@
 # RV32IM Core: A Pipelined 32-bit RISC-V Processor Core
 
 This repository contains the SystemVerilog implementation of a 32-bit RISC-V processor core. It features a pipelined architecture designed for efficient instruction execution, supporting the RV32I base integer instruction set along with the standard 'M' extension for multiplication and division. The core is capable of handling unaligned memory accesses and incorporates data hazard prevention through operand forwarding.
-![rv](https://github.com/user-attachments/assets/20218630-143a-44d9-ac47-76c57c00e957)
+
+<img width="1758" height="631" alt="Screenshot 2025-08-16 154152" src="https://github.com/user-attachments/assets/ba538216-55e8-4009-98af-7c6f17de5f2d" />
 
 ## Key Features
 
@@ -147,4 +148,5 @@ The current core provides a solid foundation. Planned enhancements include:
 
 ## References
 * [Siliscale](https://github.com/siliscale/Tiny-Vedas)
+
 
