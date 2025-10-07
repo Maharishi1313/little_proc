@@ -1,6 +1,6 @@
 # RV32IM Core: A Pipelined 32-bit RISC-V Processor Core
 
-This repository contains the SystemVerilog implementation of a 32-bit RISC-V processor core. It features a pipelined architecture designed for efficient instruction execution, supporting the RV32I base integer instruction set along with the standard 'M' extension for multiplication and division. The core is capable of handling unaligned memory accesses and incorporates data hazard prevention through operand forwarding.
+This repository contains the SystemVerilog implementation of a 32-bit RISC-V processor core. It features a pipelined architecture designed for efficient instruction execution, supporting the RV32I base integer instruction set along with the standard 'M' extension for multiplication and division. The core is capable of handling unaligned memory accesses and incorporates data hazard prevention through operand forwarding. It also features a 2-bit dynamic branch predictor.
 
 <img width="1758" height="631" alt="Screenshot 2025-08-16 154152" src="https://github.com/user-attachments/assets/ba538216-55e8-4009-98af-7c6f17de5f2d" />
 
@@ -18,8 +18,8 @@ This repository contains the SystemVerilog implementation of a 32-bit RISC-V pro
     *   Instruction Closely Coupled Memory (ICCM)
     *   Data Closely Coupled Memory (DCCM) - implied by LSU
 *   **Unaligned Access:** Supports unaligned load and store operations.
-*   **Hazard Management:** Implements operand forwarding to mitigate data hazards.
-*   **Branch Handling:** Currently assumes branches are not taken; flushes pipeline on taken branches.
+*   **Data Hazard Management:** Implements operand forwarding to mitigate data hazards.
+*   **Branch Handling:** A 64-entry (default) 2-bit branch predictor handles conditional branches.
 *   **Simulation:** Rigorously tested using Verilator.
 *   **Test Automation:** Python-based simulation manager for streamlined testing.
 *   **Debugging:** GTKWave for waveform analysis.
@@ -82,9 +82,11 @@ The EXU performs the actual computations and consists of four specialized sub-un
 ## Hazard Management and Branching
 
 *   **Data Hazards:** Operand forwarding is implemented from later pipeline stages (EX, WB) to earlier stages (ID1/EX) to reduce stalls caused by data dependencies.
-*   **Control Hazards (Branches):** The current version employs a simple branch handling strategy:
-    *   Branches are predicted as "not taken."
-    *   If a branch is actually taken, the pipeline is flushed, and fetching resumes from the correct branch target address. This incurs a performance penalty.
+*   **Control Hazards (Branches):**
+    *   2-bit dynamic branch predictor based on hysteresis counter.
+    *   Initially, every branch is predicted not to be taken, and as the code executes, the predictor gets trained.
+    *   It takes two mispredictions to change the decision of the branch predictor.
+    *   Trained predictor costs zero branch penalty.
 
 ## Simulation and Verification Workflow
 
@@ -148,5 +150,6 @@ The current core provides a solid foundation. Planned enhancements include:
 
 ## References
 * [Siliscale](https://github.com/siliscale/Tiny-Vedas)
+
 
 
